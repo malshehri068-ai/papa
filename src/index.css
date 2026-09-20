@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@layer base {
+  /* Ensure standard sRGB color fallbacks for print and html2canvas PDF rendering */
+  @media print {
+    body {
+      background-color: #ffffff !important;
+      color: #1c1917 !important;
+    }
+  }
+}

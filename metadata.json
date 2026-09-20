@@ -1,0 +1,6 @@
+{
+  "name": "مولد مقالات التسويق الرقمي",
+  "description": "توليد مقالات ومحتوى تسويقي احترافي للمتاجر الإلكترونية باستخدام Google Gemini",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

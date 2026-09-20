@@ -1,11 +1,78 @@
-<div align="center">
+# مولد مقالات التسويق الرقمي والمحتوى للمتاجر الإلكترونية 🚀
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+تطبيق ويب متكامل وتفاعلي لتوليد مقالات ومحتوى تسويقي احترافي متوافق مع محركات البحث (SEO) للمتاجر الإلكترونية والمدونات وأصحاب الأعمال، بالاعتماد على أحدث نماذج **Google Gemini API** (`@google/genai`).
 
-  <h1>Built with AI Studio</h2>
+---
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## 🌟 الميزات الرئيسية
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+- **صياغة محتوى ذكي**: يدعم مقالات المدونات، منشورات وسائل التواصل، وصف المنتجات، والنشرات البريدية.
+- **تخصيص كامل**: التحكم بنبرة الصوت، الطول المطلوب، والجمهور المستهدف.
+- **تصدير المقالات إلى PDF**: تصدير وتنزيل المقالات بضغطة زر بصيغة ملف PDF عالية الجودة ومنسقة باللغة العربية (RTL).
+- **تنزيل Markdown ومشاركة سريعة**: إمكانية تنزيل ملف `.md` أو نسخ النص للمشاركة الفورية.
+- **أكواد Python & Streamlit جاهزة**: نافذة برمجية توفر كود كامل لتشغيل الأداة عبر تطبيق Streamlit أو مكتبة بايثون، مع ملف `requirements.txt`.
+- **تصميم عصري ومتجاوب**: واجهة أنيقة بخط "تجوال" العربي، متوافقة مع كافة أحجام الشاشات والأجهزة.
 
-</div>
+---
+
+## 🛠️ متطلبات التشغيل
+
+- **Node.js** (الإصدار 18 أو أحدث)
+- مفتاح **Gemini API Key** من [Google AI Studio](https://aistudio.google.com/)
+
+---
+
+## 🚀 التشغيل المحلي (React + Express)
+
+1. **استنساخ المستودع (Clone)**:
+   ```bash
+   git clone <URL-المستودع>
+   cd <اسم-المجلد>
+   ```
+
+2. **تثبيت الحزم (Dependencies)**:
+   ```bash
+   npm install
+   ```
+
+3. **إعداد المتغيرات البيئية**:
+   قم بإنشاء ملف `.env` مستنداً إلى `.env.example`:
+   ```env
+   GEMINI_API_KEY=ضع_مفتاحك_هنا
+   ```
+
+4. **تشغيل بيئة التطوير**:
+   ```bash
+   npm run dev
+   ```
+   افتح المتصفح على: `http://localhost:3000`
+
+5. **بناء الإنتاج (Production Build)**:
+   ```bash
+   npm run build
+   npm start
+   ```
+
+---
+
+## 🐍 تشغيل نسخة Streamlit (Python)
+
+إذا أردت تشغيل نسخة Python/Streamlit المستقلة:
+
+1. تثبيت المتطلبات:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. تعيين مفتاح API:
+   ```bash
+   export GEMINI_API_KEY="your_api_key_here"
+   ```
+3. تشغيل التطبيق:
+   ```bash
+   streamlit run app.py
+   ```
+
+---
+
+## 📄 الترخيص
+هذا المشروع مفتوح المصدر ومتاح للاستخدام والتطوير.
