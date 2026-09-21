@@ -4,35 +4,39 @@ import { ArticleViewer } from "./components/ArticleViewer";
 import { ControlsPanel } from "./components/ControlsPanel";
 import { CodeSnippetModal } from "./components/CodeSnippetModal";
 import { GenerationOptions, GeneratedArticle } from "./types";
-import { INITIAL_ARTICLE_CONTENT } from "./data/marketingTemplates";
-import { AlertCircle, CheckCircle, FileText, Globe, KeyRound, Sparkles } from "lucide-react";
+import { INITIAL_EDUCATIONAL_CONTENT } from "./data/educationalTemplates";
+import { AlertCircle, CheckCircle, GraduationCap, BookOpen, KeyRound, Sparkles, Award } from "lucide-react";
 
 export default function App() {
   const [options, setOptions] = useState<GenerationOptions>({
-    contentType: "مقال مدونة",
-    topic: "أهمية التسويق الرقمي للمتاجر الإلكترونية",
-    prompt: "قم بكتابة مقال مدونة احترافي ومناسب لأصحاب المواقع عن الموضوع التالي:\nأهمية التسويق الرقمي للمتاجر الإلكترونية",
-    model: "gemini-3.6-flash",
-    tone: "تسويقي حماسي ومقنع",
-    length: "متوسط",
+    contentType: "خطة درس نموذجي",
+    topic: "دورة الماء في الطبيعة وحالات المادة",
+    subject: "العلوم العامة والفيزياء والكيمياء",
+    gradeLevel: "المرحلة الابتدائية (الصفوف العليا 4-6)",
+    prompt: "أعد خطة درس نموذجي متكاملة لدرس دورة الماء في الطبيعة متضمنة الأهداف ونشاط فكر-زاوج-شارك والتقويم",
+    model: "gemini-3.8-flash",
+    tone: "تشجيعي وتحفيزي للطلاب",
+    length: "نموذجي ومتوازن (حصة صفية كاملة)",
+    learningStrategy: "التعلم النشط والاستقصاء الموجه",
     language: "العربية",
-    targetAudience: "أصحاب المتاجر الإلكترونية والمواقع",
+    targetAudience: "المعلمون والطلاب",
     aspects: [
-      "الوصول للعميل المستهدف بدقة واستهداف نية الشراء",
-      "قياس العائد على الاستثمار (ROI) وتقليل الهدر الإعلاني",
-      "بناء ولاء دائم للعملاء واستعادة السلات المتروكة",
+      "صياغة الأهداف السلوكية وفق مستويات تصنيف بلوم المعرفية والمهارية",
+      "تطبيق استراتيجية التعلم النشط ومراعاة الفروق الفردية",
+      "تضمين أدوات تقويم تكويني وختامي وتذكرة خروج واضحة",
     ],
   });
 
   const [article, setArticle] = useState<GeneratedArticle>({
-    id: "initial-marketing-article",
-    title: "أهمية التسويق الرقمي للمتاجر الإلكترونية",
-    content: INITIAL_ARTICLE_CONTENT,
-    model: "gemini-3.6-flash",
-    wordCount: INITIAL_ARTICLE_CONTENT.trim().split(/\s+/).filter(Boolean).length,
-    readingTimeMinutes: 3,
+    id: "initial-lesson-plan",
+    title: "خطة درس نموذجي: دورة الماء في الطبيعة وحالات المادة",
+    content: INITIAL_EDUCATIONAL_CONTENT,
+    model: "gemini-3.8-flash",
+    wordCount: INITIAL_EDUCATIONAL_CONTENT.trim().split(/\s+/).filter(Boolean).length,
+    readingTimeMinutes: 4,
     createdAt: new Date().toISOString(),
-    prompt: "قم بكتابة مقال مدونة احترافي ومناسب لأصحاب المواقع عن الموضوع التالي:\nأهمية التسويق الرقمي للمتاجر الإلكترونية",
+    prompt: "خطة درس نموذجي لدرس دورة الماء في الطبيعة للصف الرابع الابتدائي",
+    category: "خطة درس",
   });
 
   const [isGenerating, setIsGenerating] = useState(false);
@@ -54,6 +58,9 @@ export default function App() {
         body: JSON.stringify({
           contentType: options.contentType,
           topic: options.topic,
+          subject: options.subject,
+          gradeLevel: options.gradeLevel,
+          learningStrategy: options.learningStrategy,
           prompt: options.prompt,
           model: options.model,
           tone: options.tone,
@@ -67,14 +74,14 @@ export default function App() {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        throw new Error(data.error || "تعذر توليد المحتوى من الخادم");
+        throw new Error(data.error || "تعذر إعداد المحتوى التعليمي من الخادم");
       }
 
       const words = data.text.trim().split(/\s+/).filter(Boolean).length;
       const readTime = Math.max(1, Math.round(words / 150));
 
       setArticle({
-        id: `article-${Date.now()}`,
+        id: `edu-${Date.now()}`,
         title: `${options.contentType}: ${options.topic.slice(0, 45)}`,
         content: data.text,
         model: data.model || options.model,
@@ -82,15 +89,22 @@ export default function App() {
         readingTimeMinutes: readTime,
         createdAt: new Date().toISOString(),
         prompt: data.prompt || options.prompt,
+        category: options.contentType,
+        quotaNotice: data.quotaNotice,
       });
 
-      setSuccessNotice("تم توليد المحتوى بنجاح بواسطة الذكاء الاصطناعي!");
-      setTimeout(() => setSuccessNotice(null), 4000);
+      if (data.quotaNotice) {
+        setSuccessNotice(data.quotaNotice);
+        setTimeout(() => setSuccessNotice(null), 9000);
+      } else {
+        setSuccessNotice("تم إعداد المحتوى التعليمي بنجاح وفق المعايير التربوية!");
+        setTimeout(() => setSuccessNotice(null), 4000);
+      }
     } catch (err: any) {
       console.warn("Generation fallback triggered:", err);
       setErrorMessage(
         err?.message ||
-          "تعذر الاتصال بـ Gemini API. يرجى التأكد من مفتاح GEMINI_API_KEY في لوحة الإعدادات (Secrets)."
+          "تعذر الاتصال بـ Gemini API. يرجى التأكد من ضبط مفتاح GEMINI_API_KEY في لوحة الإعدادات (Settings)."
       );
     } finally {
       setIsGenerating(false);
@@ -109,36 +123,38 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-8 py-6 sm:py-8 space-y-6">
-        {/* Streamlit feature cards banner */}
+        {/* Educational Info Banner */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="bg-white rounded-xl border border-stone-200 p-4 flex items-center gap-3 shadow-2xs">
-            <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center shrink-0">
-              <FileText className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center shrink-0">
+              <BookOpen className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs text-stone-500 font-medium">نوع المحتوى المختار</p>
+              <p className="text-xs text-stone-500 font-medium">نوع المخرج التعليمي</p>
               <p className="text-sm font-bold text-stone-900">{options.contentType}</p>
             </div>
           </div>
 
           <div className="bg-white rounded-xl border border-stone-200 p-4 flex items-center gap-3 shadow-2xs">
-            <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center shrink-0">
-              <Globe className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center shrink-0">
+              <GraduationCap className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs text-stone-500 font-medium">الجمهور المستهدف</p>
-              <p className="text-sm font-bold text-stone-900">أصحاب المواقع والمتاجر</p>
+              <p className="text-xs text-stone-500 font-medium">المادة والمرحلة</p>
+              <p className="text-sm font-bold text-stone-900 truncate max-w-[200px]">
+                {options.subject.split(" ")[0]} - {options.gradeLevel.split(" ")[1] || "العامة"}
+              </p>
             </div>
           </div>
 
           <div className="bg-white rounded-xl border border-stone-200 p-4 flex items-center gap-3 shadow-2xs">
-            <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center shrink-0">
-              <KeyRound className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center shrink-0">
+              <Award className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs text-stone-500 font-medium">حماية مفتاح الـ API</p>
+              <p className="text-xs text-stone-500 font-medium">استراتيجية التدريس</p>
               <p className="text-sm font-bold text-emerald-700 flex items-center gap-1">
-                <span>مشفر ومحمي تلقائياً</span>
+                <span>تعلم نشط ومستويات بلوم</span>
               </p>
             </div>
           </div>

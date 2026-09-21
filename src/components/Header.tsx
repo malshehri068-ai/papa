@@ -19,20 +19,20 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
         {/* Brand & Title */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center shadow-sm">
-            <span className="text-xl">✍️</span>
+          <div className="w-10 h-10 rounded-xl bg-teal-700 text-white flex items-center justify-center shadow-sm">
+            <span className="text-xl">🎓</span>
           </div>
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-lg sm:text-xl font-bold text-stone-900 tracking-tight">
-                مولد المحتوى الذكي لأصحاب المواقع
+                المساعد التربوي والتعليمي الذكي
               </h1>
-              <span className="hidden sm:inline-block px-2.5 py-0.5 text-xs font-medium rounded-full bg-amber-100 text-amber-800 border border-amber-200">
+              <span className="hidden sm:inline-block px-2.5 py-0.5 text-xs font-medium rounded-full bg-teal-100 text-teal-800 border border-teal-200">
                 {selectedModel}
               </span>
             </div>
             <p className="text-xs text-stone-500 hidden sm:block">
-              توليد مقالات مدونة، منشورات تواصل، وصف منتجات وصفحات هبوط بواسطة Google Gemini
+              إعداد خطط الدروس النموذجية، أوراق العمل، الاختبارات، وتبسيط المفاهيم بواسطة Google Gemini
             </p>
           </div>
         </div>
@@ -44,9 +44,9 @@ export const Header: React.FC<HeaderProps> = ({
             type="button"
             onClick={onOpenCodeModal}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-300 text-stone-700 bg-white hover:bg-stone-50 hover:text-stone-900 text-xs sm:text-sm font-medium transition cursor-pointer"
-            title="عرض كود Streamlit و Python الخاص بـ Gemini"
+            title="عرض كود Streamlit و Python الخاص بالتعليم"
           >
-            <Code2 className="w-4 h-4 text-amber-600" />
+            <Code2 className="w-4 h-4 text-teal-700" />
             <span>كود Streamlit (app.py)</span>
           </button>
 
@@ -55,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({
             type="button"
             onClick={onRefresh}
             disabled={isGenerating}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 disabled:opacity-50 text-white text-xs sm:text-sm font-medium shadow-xs transition cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-teal-700 hover:bg-teal-800 disabled:opacity-50 text-white text-xs sm:text-sm font-medium shadow-xs transition cursor-pointer"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isGenerating ? "animate-spin" : ""}`} />
             <span>{isGenerating ? "جارِ الصياغة..." : "توليد المحتوى"}</span>

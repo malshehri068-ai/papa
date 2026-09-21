@@ -57,7 +57,7 @@ export const ArticleViewer: React.FC<ArticleViewerProps> = ({
       const element = contentRef.current;
       const opt = {
         margin: [12, 14, 14, 14] as [number, number, number, number],
-        filename: `مقال_${Date.now()}.pdf`,
+        filename: `محتوى_تعليمي_${Date.now()}.pdf`,
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: {
           scale: 2,
@@ -160,12 +160,12 @@ export const ArticleViewer: React.FC<ArticleViewerProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-4 border-b border-stone-100 bg-stone-50/50">
         <div className="flex items-center gap-4 text-xs sm:text-sm text-stone-500 font-medium">
           <div className="flex items-center gap-1.5">
-            <Clock className="w-4 h-4 text-amber-600" />
+            <Clock className="w-4 h-4 text-teal-700" />
             <span>قراءة {article.readingTimeMinutes} دقيقة</span>
           </div>
           <span className="text-stone-300">•</span>
           <div className="flex items-center gap-1.5">
-            <FileText className="w-4 h-4 text-amber-600" />
+            <FileText className="w-4 h-4 text-teal-700" />
             <span>{article.wordCount} كلمة</span>
           </div>
           <span className="text-stone-300 hidden sm:inline">•</span>
@@ -234,18 +234,18 @@ export const ArticleViewer: React.FC<ArticleViewerProps> = ({
             type="button"
             onClick={handleDownloadPdf}
             disabled={isExportingPdf || isGenerating}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-bold shadow-xs transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            title="تنزيل المقال كملف PDF للمشاركة والطباعة"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-700 hover:bg-teal-800 text-white text-xs sm:text-sm font-bold shadow-xs transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            title="تنزيل المحتوى أو الخطة كملف PDF للطباعة المباشرة"
           >
             {isExportingPdf ? (
               <>
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                <span>جاري إعداد PDF...</span>
+                <span>جاري تصدير PDF...</span>
               </>
             ) : (
               <>
-                <FileDown className="w-4 h-4 text-amber-100" />
-                <span>تحميل PDF</span>
+                <FileDown className="w-4 h-4 text-teal-100" />
+                <span>تحميل PDF للطباعة</span>
               </>
             )}
           </button>
@@ -280,13 +280,23 @@ export const ArticleViewer: React.FC<ArticleViewerProps> = ({
       <div ref={contentRef} className="relative p-6 sm:p-10 flex-1 overflow-y-auto bg-white" dir="rtl">
         {isGenerating && (
           <div className="absolute inset-0 bg-white/80 backdrop-blur-xs flex flex-col items-center justify-center z-10 p-6 text-center">
-            <div className="w-12 h-12 rounded-full border-3 border-amber-500 border-t-transparent animate-spin mb-4" />
+            <div className="w-12 h-12 rounded-full border-3 border-teal-700 border-t-transparent animate-spin mb-4" />
             <p className="text-base font-bold text-stone-900">
-              يقوم نموذج Gemini بصياغة مقال تسويقي مخصص لمتجرك...
+              يقوم نموذج الذكاء الاصطناعي بإعداد المحتوى التعليمي والتربوي...
             </p>
             <p className="text-xs text-stone-500 mt-1 max-w-sm">
-              تحليل الكلمات المفتاحية، صياغة العناوين المشوقة، وبناء عناصر الإقناع
+              صياغة الأهداف السلوكية، تنظيم الأنشطة الصفية، وتطبيق استراتيجيات التدريس والتقويم
             </p>
+          </div>
+        )}
+
+        {article.quotaNotice && (
+          <div className="mb-6 p-4 rounded-xl bg-amber-50/90 border border-amber-200 text-amber-900 text-xs sm:text-sm flex items-start gap-3">
+            <span className="text-base">💡</span>
+            <div className="flex-1">
+              <p className="font-bold text-amber-950">ملاحظة الحصة التجريبية (API Quota):</p>
+              <p className="text-amber-800 mt-0.5">{article.quotaNotice}</p>
+            </div>
           </div>
         )}
 
@@ -325,7 +335,7 @@ export const ArticleViewer: React.FC<ArticleViewerProps> = ({
               ),
               blockquote: ({ ...props }) => (
                 <blockquote
-                  className="my-6 p-4 rounded-xl bg-amber-50/70 border-r-4 border-amber-500 text-stone-800 font-medium not-italic"
+                  className="my-6 p-4 rounded-xl bg-teal-50/80 border-r-4 border-teal-600 text-stone-800 font-medium not-italic"
                   {...props}
                 />
               ),
@@ -333,7 +343,7 @@ export const ArticleViewer: React.FC<ArticleViewerProps> = ({
                 <hr className="my-8 border-stone-200" {...props} />
               ),
               strong: ({ ...props }) => (
-                <strong className="font-bold text-amber-900" {...props} />
+                <strong className="font-bold text-teal-950" {...props} />
               ),
             }}
           >
@@ -344,7 +354,7 @@ export const ArticleViewer: React.FC<ArticleViewerProps> = ({
         {/* Article Footer Note */}
         <div className="mt-12 pt-6 border-t border-stone-200 flex flex-wrap items-center justify-between text-xs text-stone-500 gap-2">
           <span>
-            تم التوليد بواسطة Gemini API • جاهز للنشر على مدونة متجرك أو النشرة البريدية
+            تم الإعداد بواسطة المساعد التربوي والتعليمي الذكي • متوافق مع معايير التدريس الحديثة
           </span>
           <span className="text-stone-400">
             تاريخ الإنشاء: {new Date(article.createdAt).toLocaleDateString("ar-SA", { year: "numeric", month: "long", day: "numeric" })}
