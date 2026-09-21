@@ -10,7 +10,6 @@ st.set_page_config(
 # عرض اللوجو والعنوان الرئيسي
 col_logo, col_title = st.columns([1, 4])
 with col_logo:
-    # أيقونة/لوجو يعبر عن التعليم
     st.image(
         "https://cdn-icons-png.flaticon.com/512/3429/3429402.png",
         use_container_width=True,
@@ -38,7 +37,7 @@ with col1:
             "ملخص مادة / درس",
             "نشاط تفاعلي وصفّي",
             "ورقة عمل للطلاب",
-            "رسالة توجيهية لولياء الأمور",
+            "رسالة توجيهية لأولياء الأمور",
         ],
     )
 
@@ -72,7 +71,7 @@ with col2:
 
 topic = st.text_area(
     "عنوان الدرس أو الموضوع والتفاصيل:",
-    placeholder="اكتب هنا عنوان الدرس والاهداف أو النقاط الأساسية التي تريد تغطيتها...",
+    placeholder="اكتب هنا عنوان الدرس والأهداف أو النقاط الأساسية التي تريد تغطيتها...",
 )
 
 st.divider()
@@ -85,10 +84,9 @@ if st.button("🚀 توليد المحتوى التعليمي الآن", use_con
     elif not topic or not subject:
         st.warning("رجاءً أدخل اسم المادة والموضوع بالتفصيل.")
     else:
-        # صياغة الـ Prompt المخصص للتربية والتعليم
         prompt = f"""
 أنت مستشار تربوي وخبير في إعداد المناهج والوسائل التعليمية الحديثة.
-قم بكتابة {content_type} للغة العربية الفصحى وبشكل احترافي ومتقن.
+قم بكتابة {content_type} باللغة العربية الفصحى وبشكل احترافي ومتقن.
 
 المواصفات والمعايير المطلوبة:
 - المادة الدراسية: {subject}
@@ -121,7 +119,6 @@ if st.button("🚀 توليد المحتوى التعليمي الآن", use_con
 
                 st.divider()
 
-                # زر تحميل التحضير كملف نصي
                 st.download_button(
                     label="📥 تحميل المحتوى التعليمي (.txt)",
                     data=generated_text,
@@ -132,8 +129,14 @@ if st.button("🚀 توليد المحتوى التعليمي الآن", use_con
                 break
 
             except Exception as e:
-                if "503" in str(e) and attempt < max_retries - 1:
-                    time.sleep(2)
+                err_msg = str(e)
+                if "429" in err_msg or "RESOURCE_EXHAUSTED" in err_msg:
+                    st.error(
+                        "⚠️ تم الوصول للحد الأقصى المسموح به مجاناً من طلبات API لهذا اليوم. يرجى الانتظار قليلاً أو استخدام مفتاح API جديد."
+                    )
+                    break
+                elif "503" in err_msg and attempt < max_retries - 1:
+                    time.sleep(3)
                     continue
                 else:
                     st.error(f"حدث خطأ أثناء الاتصال: {e}")
